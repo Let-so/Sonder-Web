@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
  * Button con:
  * - variant: "default" | "outline" | "ghost"
  * - size: "sm" | "md"
- * - asChild: si es true, clona el hijo (ej. <a>) y le aplica las clases del botón.
+ * - asChild: si es true, clona el hijo (<a>, etc.) y aplica clases del botón.
  */
 
 type Common = {
@@ -19,23 +19,21 @@ type ButtonAsButton =
   & Common
   & { asChild?: false };
 
+type ChildWithClassName = { className?: string };
+
 type ButtonAsChild =
   & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children">
   & Common
-  & { asChild: true; children: React.ReactElement<any, any> };
+  & { asChild: true; children: React.ReactElement<ChildWithClassName> };
 
 type Props = ButtonAsButton | ButtonAsChild;
 
+function isAsChild(p: Props): p is ButtonAsChild {
+  return (p as ButtonAsChild).asChild === true;
+}
+
 export function Button(props: Props) {
-  const {
-    className,
-    variant = "default",
-    size = "md",
-    asChild,
-    
-    children,
-    ...rest
-  } = props as any;
+  const { className, variant = "default", size = "md" } = props;
 
   const base =
     "inline-flex items-center justify-center rounded-xl font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2";
@@ -50,19 +48,18 @@ export function Button(props: Props) {
   };
   const classes = cn(base, variants[variant], sizes[size], className);
 
-  // asChild → clonar el hijo (por ejemplo, <a>) y mergear className
-  if (asChild && React.isValidElement(children)) {
-    const child = children as React.ReactElement<{ className?: string }>;
-    return React.cloneElement(
-      child,
-      // 'any' para evitar la queja de TS sobre props específicas del hijo
-      { className: cn(child.props?.className, classes), ...rest } as any
-    );
+  if (isAsChild(props)) {
+    const { children, ...rest } = props;
+    if (!React.isValidElement<ChildWithClassName>(children)) return null;
+    return React.cloneElement(children, {
+      className: cn(children.props.className, classes),
+      ...(rest as Omit<ButtonAsChild, "children">),
+    } as Partial<ChildWithClassName>);
   }
 
-  // Render normal como <button>
+  const { asChild, children, ...restBtn } = props;
   return (
-    <button className={classes} {...(rest as React.ButtonHTMLAttributes<HTMLButtonElement>)}>
+    <button className={classes} {...restBtn}>
       {children}
     </button>
   );

@@ -76,27 +76,23 @@ const Bg = () => (
 );
 
 // ===== Logo =====
-const LogoS = ({
-  size = 84,
-  src = "/logo-sonder.png",
-}: { size?: number | string; src?: string }) => {
-  const num =
-    typeof size === "number"
-      ? size
-      : Number(String(size).replace("px", "")) || 84;
-
+const LogoS = ({ size = 84, src = "/logo-sonder.png" }:{
+  size?: number | string; src?: string;
+}) => {
+  const px = typeof size === "number" ? size : Number(String(size).replace("px", "")) || 84;
   return (
     <Image
       src={src}
       alt="Logo Sonder"
-      width={num}
-      height={num}
-      style={{ width: num, height: num }}
+      width={px}
+      height={px}
       priority
+      style={{ width: px, height: px }}
       className="inline-block object-contain select-none"
     />
   );
 };
+
 
 // ===== Navbar =====
 const Nav = () => (
@@ -211,9 +207,15 @@ const Hero = () => (
 );
 
 // ===== Bloques de secciones =====
+// ===== Bloques de secciones =====
 type FeatureCardProps = { icon: React.ReactNode; title: string; text: string };
-const FeatureCard = ({ icon, title, text }: any) => (
-  <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45 }}>
+const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, text }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 10 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.45 }}
+  >
     <Card className="h-full rounded-2xl border bg-background/60 backdrop-blur">
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-[15px] font-semibold">
@@ -279,7 +281,7 @@ const ComoFunciona = () => (
 );
 
 type DeepFeatureProps = { icon: React.ReactNode; title: string; bullets: string[] };
-const DeepFeature = ({ icon, title, bullets }: any) => (
+const DeepFeature: React.FC<DeepFeatureProps> = ({ icon, title, bullets }) => (
   <Card className="rounded-2xl border bg-background/60">
     <CardHeader className="pb-2">
       <CardTitle className="flex items-center gap-2 text-[15px] font-semibold">
@@ -288,7 +290,7 @@ const DeepFeature = ({ icon, title, bullets }: any) => (
     </CardHeader>
     <CardContent>
       <ul className="space-y-2 text-sm text-muted-foreground">
-        {bullets.map((b: string, i: number) => (
+        {bullets.map((b, i) => (
           <li key={i} className="flex items-start gap-2">
             <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-blue-600 to-fuchsia-600" /> {b}
           </li>
@@ -297,6 +299,7 @@ const DeepFeature = ({ icon, title, bullets }: any) => (
     </CardContent>
   </Card>
 );
+
 
 const Features = () => (
   <Section id="features" eyebrow="Características" title={<>Todo lo que necesitás para un seguimiento moderno</>}>
