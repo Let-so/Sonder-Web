@@ -202,8 +202,12 @@ const Hero = () => (
   <FileUp className="mr-2 h-4 w-4" /> Subir estudio
 </Button>
 <Button variant="primary" className="w-full h-9 text-sm">
-  <Watch className="mr-2 h-4 w-4" /> Conectar reloj
+  <span className="mr-2 grid place-items-center rounded-md bg-white/20 p-1">
+    <Watch className="h-4 w-4 text-white" />
+  </span>
+  Conectar reloj
 </Button>
+
 
                 </div>
               </CardContent>
@@ -375,9 +379,10 @@ const DemoWaitlist = () => {
                 </div>
                 <span>{role}</span>
               </div>
-              <Button type="submit" className="h-10 bg-gradient-to-r from-blue-600 to-fuchsia-600 text-white">
-                Enviar
-              </Button>
+             <Button type="submit" variant="primary" className="h-10">
+  Enviar
+</Button>
+
               {sent && <p className="text-sm text-green-600">¡Listo! Te contactaremos pronto. (Demo de envío)</p>}
             </form>
           </CardContent>
@@ -402,7 +407,10 @@ const DemoWaitlist = () => {
                 <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-blue-600 to-fuchsia-600" /> Exportación e interoperabilidad
               </li>
             </ul>
-            <Button className="h-10 bg-gradient-to-r from-blue-600 to-fuchsia-600 text-white">Agendar conversación</Button>
+           <Button type="button" variant="primary" className="h-10">
+  Agendar conversación
+</Button>
+
           </CardContent>
         </Card>
       </div>
