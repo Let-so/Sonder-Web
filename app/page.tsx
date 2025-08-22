@@ -112,8 +112,8 @@ const Nav = () => (
         <Button asChild variant="ghost" className="hidden sm:flex px-3 py-1.5 text-xs">
           <a href="#demo">Demo</a>
         </Button>
-        <Button asChild className="px-3 py-1.5 text-xs bg-gradient-to-r from-blue-600 to-fuchsia-600 text-white shadow-lg shadow-blue-600/20">
-          <a href="#waitlist">Unirme</a>
+       <Button asChild size="sm" variant="primary">
+         <a href="#waitlist">Unirme</a>
         </Button>
         <button className="md:hidden p-2 text-muted-foreground" aria-label="Abrir menú">
           <Menu className="h-5 w-5" />
@@ -154,12 +154,16 @@ const Hero = () => (
             Sonder conecta a médicos y pacientes para acelerar el encuentro con el tratamiento adecuado, combinando datos clínicos, registros diarios y señales fisiológicas.
           </p>
           <div className="mt-5 flex flex-wrap items-center gap-2 sm:gap-3">
-            <Button asChild size="sm" className="h-9 px-4 bg-gradient-to-r from-blue-600 to-fuchsia-600 text-white">
-              <a href="#waitlist" className="flex items-center">Unirme a la lista <ChevronRight className="ml-1 h-4 w-4" /></a>
-            </Button>
-            <Button asChild size="sm" variant="outline" className="h-9 px-4">
-              <a href="#que-es" className="flex items-center">Saber más</a>
-            </Button>
+           <Button asChild size="sm" variant="primary">
+  <a href="#waitlist" className="flex items-center">
+    Unirme a la lista <ChevronRight className="ml-1 h-4 w-4" />
+  </a>
+</Button>
+
+<Button asChild size="sm" variant="outline">
+  <a href="#que-es" className="flex items-center">Saber más</a>
+</Button>
+
           </div>
           <div className="mt-5 grid grid-cols-1 sm:flex sm:flex-wrap sm:items-center gap-3 text-[11px] sm:text-xs text-muted-foreground">
             <div className="flex items-center gap-1.5"><ShieldCheck className="h-4 w-4" /> Privacidad primero</div>
@@ -194,8 +198,13 @@ const Hero = () => (
                   <p className="mt-1 text-[11px] text-muted-foreground">La IA detectó señales tempranas. Se notificó al médico.</p>
                 </div>
                 <div className="flex items-center justify-between gap-2">
-                  <Button variant="outline" className="w-full h-9 text-sm"><FileUp className="mr-2 h-4 w-4" /> Subir estudio</Button>
-                  <Button className="w-full h-9 text-sm bg-gradient-to-r from-blue-600 to-fuchsia-600 text-white"><Watch className="mr-2 h-4 w-4" /> Conectar reloj</Button>
+                 <Button variant="outline" className="w-full h-9 text-sm">
+  <FileUp className="mr-2 h-4 w-4" /> Subir estudio
+</Button>
+<Button variant="primary" className="w-full h-9 text-sm">
+  <Watch className="mr-2 h-4 w-4" /> Conectar reloj
+</Button>
+
                 </div>
               </CardContent>
             </Card>
@@ -206,7 +215,6 @@ const Hero = () => (
   </section>
 );
 
-// ===== Bloques de secciones =====
 // ===== Bloques de secciones =====
 type FeatureCardProps = { icon: React.ReactNode; title: string; text: string };
 const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, text }) => (
@@ -343,22 +351,21 @@ const DemoWaitlist = () => {
               <div className="grid gap-2">
                 <Label className="text-sm">Perfil</Label>
                 <div className="grid grid-cols-2 gap-2">
-                  <Button
-                    type="button"
-                    variant={role === "Paciente" ? "default" : "outline"}
-                    className={role !== "Paciente" ? "bg-transparent" : " bg-gradient-to-r from-blue-600 to-fuchsia-600 text-white"}
-                    onClick={() => setRole("Paciente")}
-                  >
-                    Paciente
-                  </Button>
-                  <Button
-                    type="button"
-                    variant={role === "Médico" ? "default" : "outline"}
-                    className={role !== "Médico" ? "bg-transparent" : " bg-gradient-to-r from-blue-600 to-fuchsia-600 text-white"}
-                    onClick={() => setRole("Médico")}
-                  >
-                    Médico
-                  </Button>
+                 <Button
+  type="button"
+  variant={role === "Paciente" ? "primary" : "outline"}
+  onClick={() => setRole("Paciente")}
+>
+  Paciente
+</Button>
+<Button
+  type="button"
+  variant={role === "Médico" ? "primary" : "outline"}
+  onClick={() => setRole("Médico")}
+>
+  Médico
+</Button>
+
                 </div>
               </div>
               <div className="flex items-center justify-between text-[11px] sm:text-xs text-muted-foreground">

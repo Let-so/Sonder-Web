@@ -1,16 +1,18 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-/**
- * Button con:
- * - variant: "default" | "outline" | "ghost"
- * - size: "sm" | "md"
- * - asChild: si es true, clona el hijo (<a>, etc.) y aplica clases del botón.
+/** Variantes:
+ * - primary  → gradiente azul→fucsia
+ * - outline  → borde gris, fondo blanco
+ * - ghost    → transparente
+ * - default  → fondo negro (por si lo querés)
+ * Tamaños: sm, md
+ * Soporta `asChild` para <a> o cualquier elemento.
  */
 
 type Common = {
   className?: string;
-  variant?: "default" | "outline" | "ghost";
+  variant?: "primary" | "outline" | "ghost" | "default";
   size?: "sm" | "md";
 };
 
@@ -37,15 +39,23 @@ export function Button(props: Props) {
 
   const base =
     "inline-flex items-center justify-center rounded-xl font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2";
-  const variants: Record<string, string> = {
-    default: "bg-neutral-900 text-white hover:opacity-90 focus:ring-neutral-400",
-    outline: "border border-neutral-300 bg-white hover:bg-neutral-50 focus:ring-neutral-300",
-    ghost: "bg-transparent hover:bg-neutral-100 focus:ring-neutral-300",
+
+  const variants: Record<NonNullable<Props["variant"]>, string> = {
+    primary:
+      "bg-gradient-to-r from-blue-600 to-fuchsia-600 text-white shadow-lg shadow-blue-600/20 hover:opacity-95 focus:ring-blue-400",
+    outline:
+      "border border-neutral-300 bg-white text-neutral-900 hover:bg-neutral-50 focus:ring-neutral-300",
+    ghost:
+      "bg-transparent text-neutral-900 hover:bg-neutral-100 focus:ring-neutral-300",
+    default:
+      "bg-neutral-900 text-white hover:opacity-90 focus:ring-neutral-400",
   };
-  const sizes: Record<string, string> = {
+
+  const sizes: Record<NonNullable<Props["size"]>, string> = {
     sm: "h-9 px-3 text-sm",
     md: "h-10 px-4 text-sm",
   };
+
   const classes = cn(base, variants[variant], sizes[size], className);
 
   if (isAsChild(props)) {
