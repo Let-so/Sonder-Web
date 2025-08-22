@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -23,9 +24,11 @@ import {
 } from "lucide-react";
 
 // ===== Utilidades =====
-const Container = ({ children, className = "" }: any) => (
+type ContainerProps = { children: React.ReactNode; className?: string };
+const Container: React.FC<ContainerProps> = ({ children, className = "" }) => (
   <div className={`mx-auto w-full max-w-7xl px-4 sm:px-6 ${className}`}>{children}</div>
 );
+
 
 const Section = ({
   id,
@@ -73,9 +76,26 @@ const Bg = () => (
 );
 
 // ===== Logo =====
-const LogoS = ({ size = 84, src = "/logo-sonder.png" }: { size?: number | string; src?: string }) => {
-  const dim = typeof size === "number" ? `${size}px` : size;
-  return <img src={src} alt="Logo Sonder" style={{ width: dim, height: dim }} className="inline-block object-contain select-none" />;
+const LogoS = ({
+  size = 84,
+  src = "/logo-sonder.png",
+}: { size?: number | string; src?: string }) => {
+  const num =
+    typeof size === "number"
+      ? size
+      : Number(String(size).replace("px", "")) || 84;
+
+  return (
+    <Image
+      src={src}
+      alt="Logo Sonder"
+      width={num}
+      height={num}
+      style={{ width: num, height: num }}
+      priority
+      className="inline-block object-contain select-none"
+    />
+  );
 };
 
 // ===== Navbar =====
@@ -191,6 +211,7 @@ const Hero = () => (
 );
 
 // ===== Bloques de secciones =====
+type FeatureCardProps = { icon: React.ReactNode; title: string; text: string };
 const FeatureCard = ({ icon, title, text }: any) => (
   <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45 }}>
     <Card className="h-full rounded-2xl border bg-background/60 backdrop-blur">
@@ -257,6 +278,7 @@ const ComoFunciona = () => (
   </Section>
 );
 
+type DeepFeatureProps = { icon: React.ReactNode; title: string; bullets: string[] };
 const DeepFeature = ({ icon, title, bullets }: any) => (
   <Card className="rounded-2xl border bg-background/60">
     <CardHeader className="pb-2">
