@@ -7,6 +7,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
+import { Send } from "lucide-react";
+import { Mail } from "lucide-react";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import {
@@ -200,12 +203,14 @@ const Hero = () => (
                 <div className="flex items-center justify-between gap-2">
                  <Button variant="outline" className="w-full h-9 text-sm">
   <FileUp className="mr-2 h-4 w-4" /> Subir estudio
-          <Button variant="primary" className="w-full h-9 text-sm">
-         <span className="mr-2 grid place-items-center rounded-md bg-white/20 p-1">
-    <Watch className="h-4 w-4 text-white" />
-           </span>
-           Conectar reloj
-               </Button>
+          <Button asChild variant="primary" className="w-full h-9 text-sm justify-center">
+  <a href="#">
+    <span className="mr-2 inline-grid place-items-center rounded-md bg-white/20 p-1">
+      <Watch className="h-4 w-4 text-white" />
+    </span>
+    Conectar reloj
+  </a>
+</Button>
                 </Button>
                 </div>
               </CardContent>
@@ -377,8 +382,10 @@ const DemoWaitlist = () => {
                 </div>
                 <span>{role}</span>
               </div>
-             
-<Button type="submit" variant="primary" className="h-10">
+<Button type="submit" variant="primary" className="h-10 w-full text-sm justify-center">
+  <span className="mr-2 inline-grid place-items-center rounded-md bg-white/20 p-1">
+    <Send className="h-4 w-4 text-white" />
+  </span>
   Enviar
 </Button>
 
@@ -406,9 +413,15 @@ const DemoWaitlist = () => {
                 <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-blue-600 to-fuchsia-600" /> Exportación e interoperabilidad
               </li>
             </ul>
-      <Button asChild variant="primary" className="h-10">
-  <a href="mailto:hola@sonder.app">Agendar conversación</a>
+<Button asChild variant="primary" className="h-10 w-full text-sm justify-center">
+  <a href="mailto:hola@sonder.app" aria-label="Agendar conversación por email">
+    <span className="mr-2 inline-grid place-items-center rounded-md bg-white/20 p-1">
+      <Mail className="h-4 w-4 text-white" />
+    </span>
+    Agendar conversación
+  </a>
 </Button>
+
 
           </CardContent>
         </Card>
