@@ -142,32 +142,46 @@ const Hero = () => (
   <section className="relative overflow-hidden py-14 sm:py-20">
     <Container>
       <div className="grid items-center gap-8 lg:grid-cols-2">
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+        {/* Lado izquierdo: claim + CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
           <div className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[10px] sm:text-xs text-muted-foreground">
             <Sparkles className="h-3.5 w-3.5" />
             <span>Salud personalizada con IA</span>
           </div>
+
           <div className="mt-4">
             <LogoS size={84} />
           </div>
+
           <h1 className="mt-4 text-3xl/tight sm:text-5xl/tight font-semibold tracking-tight">
-            Menos <span className="bg-gradient-to-r from-blue-600 to-fuchsia-600 bg-clip-text text-transparent">ensayo y error</span>,<br /> más vida.
+            Menos{" "}
+            <span className="bg-gradient-to-r from-blue-600 to-fuchsia-600 bg-clip-text text-transparent">
+              ensayo y error
+            </span>
+            ,<br /> más vida.
           </h1>
+
           <p className="mt-4 text-sm sm:text-lg text-muted-foreground max-w-xl">
-            Sonder conecta a médicos y pacientes para acelerar el encuentro con el tratamiento adecuado, combinando datos clínicos, registros diarios y señales fisiológicas.
+            Sonder conecta a médicos y pacientes para acelerar el encuentro con el tratamiento adecuado,
+            combinando datos clínicos, registros diarios y señales fisiológicas.
           </p>
+
           <div className="mt-5 flex flex-wrap items-center gap-2 sm:gap-3">
-           <Button asChild size="sm" variant="primary">
-  <a href="#waitlist" className="flex items-center">
-    Unirme a la lista <ChevronRight className="ml-1 h-4 w-4" />
-  </a>
-</Button>
+            <Button asChild size="sm" variant="primary">
+              <a href="#waitlist" className="flex items-center">
+                Unirme a la lista <ChevronRight className="ml-1 h-4 w-4" />
+              </a>
+            </Button>
 
-<Button asChild size="sm" variant="outline">
-  <a href="#que-es" className="flex items-center">Saber más</a>
-</Button>
-
+            <Button asChild size="sm" variant="outline">
+              <a href="#que-es" className="flex items-center">Saber más</a>
+            </Button>
           </div>
+
           <div className="mt-5 grid grid-cols-1 sm:flex sm:flex-wrap sm:items-center gap-3 text-[11px] sm:text-xs text-muted-foreground">
             <div className="flex items-center gap-1.5"><ShieldCheck className="h-4 w-4" /> Privacidad primero</div>
             <div className="flex items-center gap-1.5"><HeartPulse className="h-4 w-4" /> Datos clínicos y fisiológicos</div>
@@ -175,7 +189,13 @@ const Hero = () => (
           </div>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6 }} className="relative">
+        {/* Lado derecho: tarjeta / mockup */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          className="relative"
+        >
           <div className="relative mx-auto w-full max-w-sm">
             <Card className="rounded-3xl border bg-background/90 shadow-2xl backdrop-blur">
               <CardHeader className="pb-2">
@@ -183,35 +203,48 @@ const Hero = () => (
                   <HeartPulse className="h-5 w-5 text-blue-600" /> Panel del paciente
                 </CardTitle>
               </CardHeader>
+
               <CardContent className="space-y-3 sm:space-y-4">
                 <div className="grid grid-cols-3 gap-2 sm:gap-3">
                   <TinyStat label="Ritmo" value="72" suffix="bpm" />
                   <TinyStat label="Pasos" value="8.320" />
                   <TinyStat label="Sueño" value="7,2" suffix="h" />
                 </div>
+
                 <div className="rounded-2xl border p-3">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-sm"><Pill className="h-4 w-4" /> Sertralina 50mg</div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <Pill className="h-4 w-4" /> Sertralina 50mg
+                    </div>
                     <Switch />
                   </div>
                   <p className="mt-1 text-[11px] text-muted-foreground">Recordatorio diario, 08:00</p>
                 </div>
+
                 <div className="rounded-2xl border p-3">
-                  <div className="flex items-center gap-2 text-sm"><Bell className="h-4 w-4" /> Posible baja respuesta</div>
-                  <p className="mt-1 text-[11px] text-muted-foreground">La IA detectó señales tempranas. Se notificó al médico.</p>
+                  <div className="flex items-center gap-2 text-sm">
+                    <Bell className="h-4 w-4" /> Posible baja respuesta
+                  </div>
+                  <p className="mt-1 text-[11px] text-muted-foreground">
+                    La IA detectó señales tempranas. Se notificó al médico.
+                  </p>
                 </div>
-                <div className="flex items-center justify-between gap-2">
-                 <Button variant="outline" className="w-full h-9 text-sm">
-  <FileUp className="mr-2 h-4 w-4" /> Subir estudio
-          <Button asChild variant="primary" className="w-full h-9 text-sm justify-center">
-  <a href="#">
-    <span className="mr-2 inline-grid place-items-center rounded-md bg-white/20 p-1">
-      <Watch className="h-4 w-4 text-white" />
-    </span>
-    Conectar reloj
-  </a>
-</Button>
-                </Button>
+
+                {/* Botones al pie del panel */}
+                <div className="mt-3 grid grid-cols-2 gap-2 z-10">
+                  <Button variant="outline" className="h-9 text-sm justify-center">
+                    <FileUp className="mr-2 h-4 w-4" />
+                    Subir estudio
+                  </Button>
+
+                  <Button asChild variant="primary" className="h-9 text-sm justify-center">
+                    <a href="#">
+                      <span className="mr-2 inline-grid place-items-center rounded-md bg-white/20 p-1">
+                        <Watch className="h-4 w-4 text-white" />
+                      </span>
+                      Conectar reloj
+                    </a>
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -421,7 +454,6 @@ const DemoWaitlist = () => {
     Agendar conversación
   </a>
 </Button>
-
 
           </CardContent>
         </Card>

@@ -39,7 +39,8 @@ export function Button(props: Props) {
 
   // Bordes tipo píldora en todos los botones
   const base =
-    "flex items-center justify-center rounded-full font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2";
+  "flex items-center justify-center rounded-full font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2";
+
 
   const variants: Record<NonNullable<Props["variant"]>, string> = {
     // Gradiente del logo: fucsia → violeta → azul + sombras y focus acordes
