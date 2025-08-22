@@ -200,15 +200,13 @@ const Hero = () => (
                 <div className="flex items-center justify-between gap-2">
                  <Button variant="outline" className="w-full h-9 text-sm">
   <FileUp className="mr-2 h-4 w-4" /> Subir estudio
-</Button>
-<Button variant="primary" className="w-full h-9 text-sm">
-  <span className="mr-2 grid place-items-center rounded-md bg-white/20 p-1">
+          <Button variant="primary" className="w-full h-9 text-sm">
+         <span className="mr-2 grid place-items-center rounded-md bg-white/20 p-1">
     <Watch className="h-4 w-4 text-white" />
-  </span>
-  Conectar reloj
-</Button>
-
-
+           </span>
+           Conectar reloj
+               </Button>
+                </Button>
                 </div>
               </CardContent>
             </Card>
@@ -379,7 +377,8 @@ const DemoWaitlist = () => {
                 </div>
                 <span>{role}</span>
               </div>
-             <Button type="submit" variant="primary" className="h-10">
+             
+<Button type="submit" variant="primary" className="h-10">
   Enviar
 </Button>
 
@@ -407,8 +406,8 @@ const DemoWaitlist = () => {
                 <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-blue-600 to-fuchsia-600" /> Exportación e interoperabilidad
               </li>
             </ul>
-           <Button type="button" variant="primary" className="h-10">
-  Agendar conversación
+      <Button asChild variant="primary" className="h-10">
+  <a href="mailto:hola@sonder.app">Agendar conversación</a>
 </Button>
 
           </CardContent>
