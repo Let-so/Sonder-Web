@@ -1,223 +1,439 @@
-function Eyebrow({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="inline-block rounded-full border border-neutral-200 px-3 py-1 text-[10px] text-neutral-600">
+"use client";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+import {
+  HeartPulse,
+  ShieldCheck,
+  Sparkles,
+  Stethoscope,
+  Bell,
+  FileUp,
+  Watch,
+  Pill,
+  Bot,
+  ChevronRight,
+  Menu,
+} from "lucide-react";
+
+// ===== Utilidades =====
+const Container = ({ children, className = "" }: any) => (
+  <div className={`mx-auto w-full max-w-7xl px-4 sm:px-6 ${className}`}>{children}</div>
+);
+
+const Section = ({
+  id,
+  eyebrow,
+  title,
+  subtitle,
+  children,
+}: {
+  id: string;
+  eyebrow?: string;
+  title?: React.ReactNode;
+  subtitle?: React.ReactNode;
+  children?: React.ReactNode;
+}) => (
+  <section id={id} className="relative py-14 sm:py-20">
+    <Container>
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="mb-8 sm:mb-10"
+      >
+        {eyebrow && (
+          <div className="mb-3">
+            <Badge className="rounded-full px-3 py-1 text-[10px] sm:text-xs tracking-wider">
+              {eyebrow}
+            </Badge>
+          </div>
+        )}
+        {title && <h2 className="text-2xl/tight sm:text-4xl/tight font-semibold tracking-tight">{title}</h2>}
+        {subtitle && <p className="mt-3 max-w-3xl text-sm sm:text-base text-muted-foreground">{subtitle}</p>}
+      </motion.div>
       {children}
-    </span>
-  );
-}
+    </Container>
+  </section>
+);
 
-function Card({ title, text }: { title: string; text: string }) {
-  return (
-    <div
-      className="rounded-2xl border border-neutral-200 p-5 shadow-sm"
-      style={{ backdropFilter: "blur(10px)", background: "rgba(255,255,255,0.8)" }}
-    >
-      <div className="text-base font-semibold">{title}</div>
-      <p className="mt-2 text-sm text-neutral-600">{text}</p>
-    </div>
-  );
-}
+// ===== Fondo =====
+const Bg = () => (
+  <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+    <div className="absolute inset-0 bg-[radial-gradient(40%_30%_at_50%_10%,theme(colors.blue.500/.10),transparent),radial-gradient(25%_20%_at_90%_10%,theme(colors.fuchsia.500/.08),transparent),radial-gradient(30%_25%_at_10%_10%,theme(colors.cyan.400/.10),transparent)]" />
+    <div className="hidden sm:block absolute inset-0 [background:linear-gradient(to_right,theme(colors.black/5)_1px,transparent_1px),linear-gradient(to_bottom,theme(colors.black/5)_1px,transparent_1px)] [background-size:40px_40px] opacity-5" />
+  </div>
+);
 
-function TinyStat({ label, value, suffix }: { label: string; value: string; suffix?: string }) {
-  return (
-    <div className="rounded-2xl border border-neutral-200 p-3 text-center shadow-sm"
-         style={{ background: "rgba(255,255,255,0.85)", backdropFilter: "blur(8px)" }}>
-      <div className="text-xl font-semibold">
-        {value}
-        {suffix && <span className="text-sm font-medium">{suffix}</span>}
+// ===== Logo =====
+const LogoS = ({ size = 84, src = "/logo-sonder.png" }: { size?: number | string; src?: string }) => {
+  const dim = typeof size === "number" ? `${size}px` : size;
+  return <img src={src} alt="Logo Sonder" style={{ width: dim, height: dim }} className="inline-block object-contain select-none" />;
+};
+
+// ===== Navbar =====
+const Nav = () => (
+  <header className="sticky top-0 z-40 border-b backdrop-blur bg-white/70">
+    <Container className="flex h-14 items-center justify-between gap-2">
+      <div className="flex items-center gap-2">
+        <LogoS size={28} />
+        <span className="text-sm font-semibold tracking-tight">Sonder</span>
       </div>
-      <div className="mt-1 text-[11px] text-neutral-600">{label}</div>
-    </div>
-  );
-}
+      <nav className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
+        <a href="#que-es" className="hover:text-foreground">Qué es</a>
+        <a href="#como-funciona" className="hover:text-foreground">Cómo funciona</a>
+        <a href="#features" className="hover:text-foreground">Características</a>
+        <a href="#faq" className="hover:text-foreground">FAQ</a>
+      </nav>
+      <div className="flex items-center gap-1 sm:gap-2">
+        <Button asChild variant="ghost" className="hidden sm:flex px-3 py-1.5 text-xs">
+          <a href="#demo">Demo</a>
+        </Button>
+        <Button asChild className="px-3 py-1.5 text-xs bg-gradient-to-r from-blue-600 to-fuchsia-600 text-white shadow-lg shadow-blue-600/20">
+          <a href="#waitlist">Unirme</a>
+        </Button>
+        <button className="md:hidden p-2 text-muted-foreground" aria-label="Abrir menú">
+          <Menu className="h-5 w-5" />
+        </button>
+      </div>
+    </Container>
+  </header>
+);
 
-function Step({ num, title, text }: { num: number; title: string; text: string }) {
-  return (
-    <li
-      className="relative rounded-2xl border border-neutral-200 p-5 shadow-sm"
-      style={{ backdropFilter: "blur(10px)", background: "rgba(255,255,255,0.8)" }}
-    >
-      <div className="absolute -top-3 -left-3 grid h-8 w-8 place-items-center rounded-xl bg-gradient-to-br from-blue-600 to-fuchsia-600 text-white text-sm font-semibold">
+// ===== Widgets =====
+const TinyStat = ({ label, value, suffix }: { label: string; value: string; suffix?: string }) => (
+  <div className="rounded-2xl border bg-background/60 p-3 text-center">
+    <div className="text-xl sm:text-2xl font-semibold tracking-tight">
+      {value}
+      {suffix && <span className="text-sm sm:text-base font-medium">{suffix}</span>}
+    </div>
+    <div className="mt-1 text-[11px] sm:text-xs text-muted-foreground">{label}</div>
+  </div>
+);
+
+// ===== Hero =====
+const Hero = () => (
+  <section className="relative overflow-hidden py-14 sm:py-20">
+    <Container>
+      <div className="grid items-center gap-8 lg:grid-cols-2">
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+          <div className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[10px] sm:text-xs text-muted-foreground">
+            <Sparkles className="h-3.5 w-3.5" />
+            <span>Salud personalizada con IA</span>
+          </div>
+          <div className="mt-4">
+            <LogoS size={84} />
+          </div>
+          <h1 className="mt-4 text-3xl/tight sm:text-5xl/tight font-semibold tracking-tight">
+            Menos <span className="bg-gradient-to-r from-blue-600 to-fuchsia-600 bg-clip-text text-transparent">ensayo y error</span>,<br /> más vida.
+          </h1>
+          <p className="mt-4 text-sm sm:text-lg text-muted-foreground max-w-xl">
+            Sonder conecta a médicos y pacientes para acelerar el encuentro con el tratamiento adecuado, combinando datos clínicos, registros diarios y señales fisiológicas.
+          </p>
+          <div className="mt-5 flex flex-wrap items-center gap-2 sm:gap-3">
+            <Button asChild size="sm" className="h-9 px-4 bg-gradient-to-r from-blue-600 to-fuchsia-600 text-white">
+              <a href="#waitlist" className="flex items-center">Unirme a la lista <ChevronRight className="ml-1 h-4 w-4" /></a>
+            </Button>
+            <Button asChild size="sm" variant="outline" className="h-9 px-4">
+              <a href="#que-es" className="flex items-center">Saber más</a>
+            </Button>
+          </div>
+          <div className="mt-5 grid grid-cols-1 sm:flex sm:flex-wrap sm:items-center gap-3 text-[11px] sm:text-xs text-muted-foreground">
+            <div className="flex items-center gap-1.5"><ShieldCheck className="h-4 w-4" /> Privacidad primero</div>
+            <div className="flex items-center gap-1.5"><HeartPulse className="h-4 w-4" /> Datos clínicos y fisiológicos</div>
+            <div className="flex items-center gap-1.5"><Stethoscope className="h-4 w-4" /> Diseñado junto a profesionales</div>
+          </div>
+        </motion.div>
+
+        <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6 }} className="relative">
+          <div className="relative mx-auto w-full max-w-sm">
+            <Card className="rounded-3xl border bg-background/90 shadow-2xl backdrop-blur">
+              <CardHeader className="pb-2">
+                <CardTitle className="flex items-center gap-2 text-sm sm:text-base">
+                  <HeartPulse className="h-5 w-5 text-blue-600" /> Panel del paciente
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 sm:space-y-4">
+                <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                  <TinyStat label="Ritmo" value="72" suffix="bpm" />
+                  <TinyStat label="Pasos" value="8.320" />
+                  <TinyStat label="Sueño" value="7,2" suffix="h" />
+                </div>
+                <div className="rounded-2xl border p-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-sm"><Pill className="h-4 w-4" /> Sertralina 50mg</div>
+                    <Switch />
+                  </div>
+                  <p className="mt-1 text-[11px] text-muted-foreground">Recordatorio diario, 08:00</p>
+                </div>
+                <div className="rounded-2xl border p-3">
+                  <div className="flex items-center gap-2 text-sm"><Bell className="h-4 w-4" /> Posible baja respuesta</div>
+                  <p className="mt-1 text-[11px] text-muted-foreground">La IA detectó señales tempranas. Se notificó al médico.</p>
+                </div>
+                <div className="flex items-center justify-between gap-2">
+                  <Button variant="outline" className="w-full h-9 text-sm"><FileUp className="mr-2 h-4 w-4" /> Subir estudio</Button>
+                  <Button className="w-full h-9 text-sm bg-gradient-to-r from-blue-600 to-fuchsia-600 text-white"><Watch className="mr-2 h-4 w-4" /> Conectar reloj</Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </motion.div>
+      </div>
+    </Container>
+  </section>
+);
+
+// ===== Bloques de secciones =====
+const FeatureCard = ({ icon, title, text }: any) => (
+  <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45 }}>
+    <Card className="h-full rounded-2xl border bg-background/60 backdrop-blur">
+      <CardHeader className="pb-2">
+        <CardTitle className="flex items-center gap-2 text-[15px] font-semibold">
+          {icon} {title}
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm text-muted-foreground">{text}</p>
+      </CardContent>
+    </Card>
+  </motion.div>
+);
+
+const QueEs = () => (
+  <Section
+    id="que-es"
+    eyebrow="Qué es Sonder"
+    title={<>Una plataforma de salud que entiende tu particularidad</>}
+    subtitle={
+      "Sonder conecta al médico con el paciente mediante un código único y crea un espacio compartido para registrar síntomas, hábitos, medicación y estudios. Con IA, detecta tendencias y alerta al profesional si algo no va bien."
+    }
+  >
+    <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <FeatureCard icon={<Stethoscope className="h-5 w-5" />} title="Vínculo médico–paciente" text="El médico genera un código único. El paciente lo ingresa al registrarse y se establece el vínculo clínico." />
+      <FeatureCard icon={<FileUp className="h-5 w-5" />} title="Estudios y registros" text="Subí PDFs de estudios, registrá síntomas y hábitos diarios de forma simple." />
+      <FeatureCard icon={<Watch className="h-5 w-5" />} title="Datos fisiológicos" text="Integración con smartwatches para pasos, ritmo cardíaco y más." />
+      <FeatureCard icon={<Pill className="h-5 w-5" />} title="Tratamientos" text="Lista de medicación con dosis y horarios, con confirmación diaria." />
+      <FeatureCard icon={<Bot className="h-5 w-5" />} title="Asistencia con IA" text="Un asistente organiza la información para el seguimiento clínico." />
+      <FeatureCard icon={<Bell className="h-5 w-5" />} title="Alertas tempranas" text="Si el tratamiento no parece responder bien, la IA notifica al médico con una explicación basada en datos." />
+    </div>
+  </Section>
+);
+
+const Step = ({ num, title, text }: { num: number; title: string; text: string }) => (
+  <li>
+    <div className="relative h-full rounded-2xl border bg-background/60 p-4 sm:p-5 backdrop-blur">
+      <div className="absolute -top-3 -left-3 grid h-8 w-8 place-items-center rounded-xl bg-gradient-to-br from-blue-600 to-fuchsia-600 text-white text-sm font-semibold shadow-md">
         {num}
       </div>
-      <h3 className="text-base font-semibold">{title}</h3>
-      <p className="mt-1.5 text-sm text-neutral-600">{text}</p>
-    </li>
-  );
-}
+      <h3 className="text-[15px] font-semibold">{title}</h3>
+      <p className="mt-1.5 text-sm text-muted-foreground">{text}</p>
+    </div>
+  </li>
+);
 
-export default function Page() {
+const ComoFunciona = () => (
+  <Section
+    id="como-funciona"
+    eyebrow="Cómo funciona"
+    title={<>Del consultorio a los datos, sin fricción</>}
+    subtitle="Un flujo simple diseñado para no agregar carga al paciente ni al médico."
+  >
+    <ol className="grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <Step num={1} title="Código del médico" text="El profesional crea un código y se lo comparte al paciente." />
+      <Step num={2} title="Registro del paciente" text="La persona ingresa el código y responde preguntas según su patología." />
+      <Step num={3} title="Seguimiento" text="Sube estudios, registra medicación y puede conectar su smartwatch." />
+      <Step num={4} title="Detección temprana" text="La IA alerta al médico si el tratamiento no parece funcionar." />
+    </ol>
+    <p className="mt-5 text-[11px] sm:text-xs text-muted-foreground">
+      Nota: Sonder no prescribe ni recomienda medicamentos. Es una herramienta de apoyo para el equipo de salud.
+    </p>
+  </Section>
+);
+
+const DeepFeature = ({ icon, title, bullets }: any) => (
+  <Card className="rounded-2xl border bg-background/60">
+    <CardHeader className="pb-2">
+      <CardTitle className="flex items-center gap-2 text-[15px] font-semibold">
+        {icon} {title}
+      </CardTitle>
+    </CardHeader>
+    <CardContent>
+      <ul className="space-y-2 text-sm text-muted-foreground">
+        {bullets.map((b: string, i: number) => (
+          <li key={i} className="flex items-start gap-2">
+            <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-blue-600 to-fuchsia-600" /> {b}
+          </li>
+        ))}
+      </ul>
+    </CardContent>
+  </Card>
+);
+
+const Features = () => (
+  <Section id="features" eyebrow="Características" title={<>Todo lo que necesitás para un seguimiento moderno</>}>
+    <div className="grid gap-4 sm:gap-6 lg:grid-cols-3">
+      <DeepFeature icon={<ShieldCheck className="h-5 w-5" />} title="Privacidad y seguridad" bullets={["Datos cifrados en tránsito y en reposo", "Control del vínculo por parte del médico", "Diseñado para adecuación normativa en Argentina"]} />
+      <DeepFeature icon={<HeartPulse className="h-5 w-5" />} title="Panel del paciente" bullets={["Carga de estudios en PDF", "Conexión con smartwatch", "Registro de medicación con confirmación diaria", "Preguntas guiadas según patología"]} />
+      <DeepFeature icon={<Stethoscope className="h-5 w-5" />} title="Panel del médico" bullets={["Vista rápida de evolución", "Alertas explicadas con datos", "Historial centralizado del paciente", "Exportaciones para la historia clínica"]} />
+    </div>
+  </Section>
+);
+
+const DemoWaitlist = () => {
+  const [sent, setSent] = useState(false);
+  const [role, setRole] = useState<"Paciente" | "Médico">("Paciente");
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setSent(true);
+  }
   return (
-    <div className="relative min-h-screen">
-      {/* Fondo claro suave */}
-      <div className="fixed inset-0 -z-10 overflow-hidden">
-        <div
-          className="absolute inset-0"
-          style={{
-            background: `
-              radial-gradient(40% 30% at 50% 10%, rgba(59,130,246,.10), transparent),
-              radial-gradient(25% 20% at 90% 10%, rgba(217,70,239,.08), transparent),
-              radial-gradient(30% 25% at 10% 10%, rgba(34,211,238,.10), transparent)
-            `,
-          }}
-        />
-      </div>
+    <Section
+      id="waitlist"
+      eyebrow="Probá Sonder"
+      title="Solicitá una demo o sumate a la lista de espera"
+      subtitle="Dejanos tu contacto y te escribimos cuando esté disponible para tu perfil."
+    >
+      <div className="grid gap-6 sm:gap-8 lg:grid-cols-2">
+        <Card className="rounded-3xl border bg-background/60">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-[15px] sm:text-base">Unite a la lista</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="grid gap-3 sm:gap-4">
+              <div className="grid gap-1.5">
+                <Label className="text-sm">Nombre</Label>
+                <Input placeholder="Tu nombre" required className="h-10" />
+              </div>
+              <div className="grid gap-1.5">
+                <Label className="text-sm">Email</Label>
+                <Input type="email" placeholder="tu@email.com" required className="h-10" />
+              </div>
+              <div className="grid gap-2">
+                <Label className="text-sm">Perfil</Label>
+                <div className="grid grid-cols-2 gap-2">
+                  <Button
+                    type="button"
+                    variant={role === "Paciente" ? "default" : "outline"}
+                    className={role !== "Paciente" ? "bg-transparent" : " bg-gradient-to-r from-blue-600 to-fuchsia-600 text-white"}
+                    onClick={() => setRole("Paciente")}
+                  >
+                    Paciente
+                  </Button>
+                  <Button
+                    type="button"
+                    variant={role === "Médico" ? "default" : "outline"}
+                    className={role !== "Médico" ? "bg-transparent" : " bg-gradient-to-r from-blue-600 to-fuchsia-600 text-white"}
+                    onClick={() => setRole("Médico")}
+                  >
+                    Médico
+                  </Button>
+                </div>
+              </div>
+              <div className="flex items-center justify-between text-[11px] sm:text-xs text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <Switch id="updates" />
+                  <Label htmlFor="updates">Recibir novedades del proyecto</Label>
+                </div>
+                <span>{role}</span>
+              </div>
+              <Button type="submit" className="h-10 bg-gradient-to-r from-blue-600 to-fuchsia-600 text-white">
+                Enviar
+              </Button>
+              {sent && <p className="text-sm text-green-600">¡Listo! Te contactaremos pronto. (Demo de envío)</p>}
+            </form>
+          </CardContent>
+        </Card>
 
-      {/* NAV */}
-      <header className="sticky top-0 z-40 border-b border-neutral-200 backdrop-blur bg-white/70">
-        <div className="mx-auto max-w-6xl px-4 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <img src="/logo-sonder.png" alt="Sonder" className="h-6 w-6 object-contain" />
-            <span className="text-sm font-semibold">Sonder</span>
-          </div>
-          <a
-            href="#waitlist"
-            className="rounded-xl bg-gradient-to-r from-blue-600 to-fuchsia-600 px-3 py-1.5 text-xs font-medium text-white shadow"
-          >
-            Unirme
-          </a>
-        </div>
-      </header>
-
-      {/* HERO */}
-      <section className="py-14">
-        <div className="mx-auto max-w-6xl px-4 grid lg:grid-cols-2 gap-8 items-center">
-          <div>
-            <Eyebrow>Salud personalizada con IA</Eyebrow>
-            <div className="mt-4">
-              <img src="/logo-sonder.png" alt="Logo Sonder" className="h-20 w-20 object-contain" />
-            </div>
-            <h1 className="mt-4 text-3xl leading-tight font-semibold sm:text-5xl">
-              Menos{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-fuchsia-600 bg-clip-text text-transparent">
-                ensayo y error
-              </span>
-              ,<br /> más vida.
-            </h1>
-            <p className="mt-4 text-sm sm:text-lg text-neutral-600 max-w-xl">
-              Sonder conecta a médicos y pacientes para acelerar el encuentro con el tratamiento adecuado,
-              combinando datos clínicos, registros diarios y señales fisiológicas.
+        <Card id="demo" className="rounded-3xl border bg-background/60">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-[15px] sm:text-base">Solicitar demo para instituciones</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <p className="text-sm text-muted-foreground">
+              ¿Sos parte de un equipo de salud? Coordinemos una demo privada enfocada en tus procesos.
             </p>
-            <div className="mt-5 flex flex-wrap items-center gap-2">
-              <a
-                href="#waitlist"
-                className="rounded-xl bg-gradient-to-r from-blue-600 to-fuchsia-600 px-4 py-2 text-sm font-medium text-white shadow"
-              >
-                Unirme a la lista
-              </a>
-              <a href="#que-es" className="rounded-xl border border-neutral-200 px-4 py-2 text-sm">
-                Saber más
-              </a>
-            </div>
-          </div>
+            <ul className="text-sm text-muted-foreground space-y-2">
+              <li className="flex items-start gap-2">
+                <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-blue-600 to-fuchsia-600" /> Configuración por especialidad
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-blue-600 to-fuchsia-600" /> Perfiles de acceso y seguridad
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-blue-600 to-fuchsia-600" /> Exportación e interoperabilidad
+              </li>
+            </ul>
+            <Button className="h-10 bg-gradient-to-r from-blue-600 to-fuchsia-600 text-white">Agendar conversación</Button>
+          </CardContent>
+        </Card>
+      </div>
+    </Section>
+  );
+};
 
+const FAQ = () => (
+  <Section id="faq" eyebrow="Preguntas frecuentes" title="Lo esencial, claro y directo">
+    <div className="grid gap-3 sm:gap-4 sm:grid-cols-2">
+      <FaqItem q="¿Sonder prescribe tratamientos?" a="No. Sonder no prescribe ni recomienda directamente medicación. Es una herramienta de apoyo para seguimiento y comunicación clínica." />
+      <FaqItem q="¿Cómo se vinculan médico y paciente?" a="El médico genera un código único desde su panel y el paciente lo ingresa al registrarse. Así se establece el vínculo clínico." />
+      <FaqItem q="¿Qué datos usa la IA?" a="Combina información declarada por el paciente con estudios y, si lo eligen, datos de smartwatch." />
+      <FaqItem q="¿Qué pasa con mi privacidad?" a="Priorizamos la seguridad de los datos, con cifrado en tránsito y en reposo y controles de acceso." />
+    </div>
+  </Section>
+);
+
+const FaqItem = ({ q, a }: { q: string; a: string }) => (
+  <div className="rounded-2xl border bg-background/60 p-4 sm:p-5">
+    <h3 className="text-[15px] font-semibold">{q}</h3>
+    <p className="mt-1.5 text-sm text-muted-foreground">{a}</p>
+  </div>
+);
+
+const Footer = () => (
+  <footer className="border-t py-8 sm:py-10">
+    <Container>
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="flex items-center gap-2">
+          <LogoS size={28} />
           <div>
-            <div
-              className="rounded-3xl border border-neutral-200 p-5 shadow-2xl max-w-sm mx-auto"
-              style={{
-                backdropFilter: "blur(14px)",
-                background: "rgba(255,255,255,0.85)",
-              }}
-            >
-              <div className="flex items-center gap-2 text-sm font-medium">Panel del paciente</div>
-              <div className="grid grid-cols-3 gap-2 sm:gap-3 mt-4">
-                <TinyStat label="Ritmo" value="72" suffix="bpm" />
-                <TinyStat label="Pasos" value="8.320" />
-                <TinyStat label="Sueño" value="7,2" suffix="h" />
-              </div>
-              <div className="rounded-2xl border border-neutral-200 p-3 mt-3"
-                   style={{ background: "rgba(255,255,255,0.9)" }}>
-                <div className="text-sm">Sertralina 50mg</div>
-                <p className="mt-1 text-[11px] text-neutral-600">Recordatorio diario, 08:00</p>
-              </div>
-              <div className="rounded-2xl border border-neutral-200 p-3 mt-3"
-                   style={{ background: "rgba(255,255,255,0.9)" }}>
-                <div className="text-sm">Posible baja respuesta</div>
-                <p className="mt-1 text-[11px] text-neutral-600">La IA detectó señales tempranas. Se notificó al médico.</p>
-              </div>
-              <div className="flex items-center gap-2 mt-3">
-                <a className="w-full rounded-xl border border-neutral-200 px-3 py-2 text-center text-sm" href="#">
-                  Subir estudio
-                </a>
-                <a className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-fuchsia-600 px-3 py-2 text-center text-sm text-white" href="#">
-                  Conectar reloj
-                </a>
-              </div>
+            <div className="text-sm font-semibold">Sonder</div>
+            <div className="text-[11px] text-muted-foreground">
+              © {new Date().getFullYear()} — Todos los derechos reservados
             </div>
           </div>
         </div>
-      </section>
-
-      {/* QUÉ ES */}
-      <section id="que-es" className="py-14">
-        <div className="mx-auto max-w-6xl px-4">
-          <Eyebrow>Qué es Sonder</Eyebrow>
-          <h2 className="mt-3 text-2xl font-semibold sm:text-4xl">Una plataforma de salud que entiende tu particularidad</h2>
-          <p className="mt-3 max-w-3xl text-sm sm:text-base text-neutral-600">
-            Sonder conecta al médico con el paciente mediante un código único y crea un espacio compartido
-            para registrar síntomas, hábitos, medicación y estudios. Con IA, detecta tendencias y alerta al
-            profesional si algo no va bien.
-          </p>
-          <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-8">
-            {[
-              ["Vínculo médico–paciente", "El médico genera un código único y el paciente lo ingresa al registrarse."],
-              ["Estudios y registros", "Subí PDFs de estudios y registrá síntomas y hábitos diarios."],
-              ["Datos fisiológicos", "Integración con smartwatches para pasos, ritmo, etc."],
-              ["Tratamientos", "Lista de medicación con dosis y horarios, con confirmación diaria."],
-              ["Asistencia con IA", "El asistente organiza la información para el seguimiento clínico."],
-              ["Alertas tempranas", "La IA notifica al médico con explicación basada en datos."],
-            ].map(([t, d]) => (
-              <Card key={t as string} title={t as string} text={d as string} />
-            ))}
-          </div>
+        <div className="flex gap-5 text-sm">
+          <a href="#que-es" className="text-muted-foreground hover:text-foreground">Qué es</a>
+          <a href="#como-funciona" className="text-muted-foreground hover:text-foreground">Cómo funciona</a>
+          <a href="#features" className="text-muted-foreground hover:text-foreground">Características</a>
+          <a href="#waitlist" className="text-muted-foreground hover:text-foreground">Contacto</a>
         </div>
-      </section>
+      </div>
+    </Container>
+  </footer>
+);
 
-      {/* CÓMO FUNCIONA */}
-      <section id="como-funciona" className="py-14">
-        <div className="mx-auto max-w-6xl px-4">
-          <Eyebrow>Cómo funciona</Eyebrow>
-          <h2 className="mt-3 text-2xl font-semibold sm:text-4xl">Del consultorio a los datos, sin fricción</h2>
-          <p className="mt-3 text-sm sm:text-base text-neutral-600">
-            Un flujo simple diseñado para no agregar carga al paciente ni al médico.
-          </p>
-          <ol className="grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4 mt-6">
-            {[
-              ["Código del médico", "El profesional crea un código y lo comparte con el paciente."],
-              ["Registro del paciente", "Ingresa el código y responde preguntas según su patología."],
-              ["Seguimiento", "Carga estudios, registra medicación y puede conectar su smartwatch."],
-              ["Detección temprana", "La IA alerta al médico si el tratamiento no parece funcionar."],
-            ].map(([t, d], i) => (
-              <Step key={t as string} num={i + 1} title={t as string} text={d as string} />
-            ))}
-          </ol>
-          <p className="mt-5 text-[11px] text-neutral-500">
-            Nota: Sonder no prescribe ni recomienda medicamentos. Es una herramienta de apoyo para el equipo de salud.
-          </p>
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="border-t border-neutral-200 py-8">
-        <div className="mx-auto max-w-6xl px-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div className="flex items-center gap-2">
-            <img src="/logo-sonder.png" alt="Sonder" className="h-6 w-6 object-contain" />
-            <div>
-              <div className="text-sm font-semibold">Sonder</div>
-              <div className="text-[11px] text-neutral-500">
-                © {new Date().getFullYear()} — Todos los derechos reservados
-              </div>
-            </div>
-          </div>
-          <div className="flex gap-5 text-sm text-neutral-600">
-            <a href="#que-es" className="hover:text-neutral-900">Qué es</a>
-            <a href="#como-funciona" className="hover:text-neutral-900">Cómo funciona</a>
-            <a href="#features" className="hover:text-neutral-900">Características</a>
-            <a href="#waitlist" className="hover:text-neutral-900">Contacto</a>
-          </div>
-        </div>
-      </footer>
+export default function SonderLanding() {
+  return (
+    <div className="relative min-h-screen text-foreground antialiased">
+      <Bg />
+      <Nav />
+      <main>
+        <Hero />
+        <QueEs />
+        <ComoFunciona />
+        <Features />
+        <DemoWaitlist />
+        <FAQ />
+      </main>
+      <Footer />
     </div>
   );
 }
-
