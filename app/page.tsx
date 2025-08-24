@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Send } from "lucide-react";
 import { Mail } from "lucide-react";
 
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import {
@@ -231,22 +232,22 @@ const Hero = () => (
                 </div>
 
                 {/* Botones al pie del panel */}
-                <div className="mt-3 grid grid-cols-2 gap-2 z-10">
-                  <Button variant="outline" className="h-9 text-sm justify-center">
-                    <FileUp className="mr-2 h-4 w-4" />
-                    Subir estudio
-                  </Button>
+<div className="mt-3 grid grid-cols-2 gap-2 z-10">
+  <Button variant="outline" className="h-9 text-sm justify-center">
+    <FileUp className="mr-2 h-4 w-4" />
+    Subir estudio
+  </Button>
 
-                  <Button asChild variant="primary" className="h-9 text-sm justify-center">
-                    <a href="#">
-                      <span className="mr-2 inline-grid place-items-center rounded-md bg-white/20 p-1">
-                        <Watch className="h-4 w-4 text-white" />
-                      </span>
-                      Conectar reloj
-                    </a>
-                  </Button>
-                </div>
-              </CardContent>
+  <Button asChild variant="primary" className="h-9 text-sm justify-center">
+    <a href="#">
+      <span className="mr-2 inline-grid place-items-center rounded-md bg-white/20 p-1">
+        <Watch className="h-4 w-4 text-white" />
+      </span>
+      Conectar reloj
+    </a>
+  </Button>
+</div>
+  </CardContent>
             </Card>
           </div>
         </motion.div>
@@ -415,12 +416,13 @@ const DemoWaitlist = () => {
                 </div>
                 <span>{role}</span>
               </div>
-<Button type="submit" variant="primary" className="h-10 w-full text-sm justify-center">
+          <Button type="submit" variant="primary" className="h-10 w-full text-sm justify-center">
   <span className="mr-2 inline-grid place-items-center rounded-md bg-white/20 p-1">
     <Send className="h-4 w-4 text-white" />
   </span>
   Enviar
 </Button>
+
 
               {sent && <p className="text-sm text-green-600">¡Listo! Te contactaremos pronto. (Demo de envío)</p>}
             </form>
